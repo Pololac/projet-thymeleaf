@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produits</title>
+    <style>
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px 0;
+        }
+        .product-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #06467a;
+        }
+        .product-price {
+            font-size: 1.2em;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des produits</h1>
+    <ul>
+        <li th:each="product : ${products}">
+            <span class="product-name" th:text="${product.name}">Produit</span>
+            <span class="product-price" th:text="${product.price} + ' €'">Prix</span>
+            <form th:action="@{/cart/add/{id} (id=${product.id})}" method="post">
+                <button>Ajouter au panier</button>
+            </form>
+        </li>
+    </ul>
+
+    <!-- Pagination -->
+    <div>
+        <a th:if="${currentPage > 1}" th:href="@{|/products?page=${currentPage - 1}|}">Précédent</a>
+        Page <span th:text="${currentPage}"></span> / <span th:text="${totalPages}"></span>
+        <a th:if="${currentPage < totalPages}" th:href="@{|/products?page=${currentPage + 1}|}">Suivant</a>
+    </div>
+
+</body>
+</html>
