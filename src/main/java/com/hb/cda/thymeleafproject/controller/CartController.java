@@ -4,11 +4,18 @@ import com.hb.cda.thymeleafproject.entity.Product;
 import com.hb.cda.thymeleafproject.entity.User;
 import com.hb.cda.thymeleafproject.repository.ProductRepository;
 import com.hb.cda.thymeleafproject.service.CartService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class CartController {
@@ -21,10 +28,12 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    public String showCart(Model model, @AuthenticationPrincipal User user, Product product) {
-        model.addAttribute("cart", cartService.getCart());
-        model.addAttribute("productTotal", cartService.getProductTotal(product));
-        model.addAttribute("total", cartService.getTotal());
+    public String showCart(Model model, @AuthenticationPrincipal User user) {
+        Map<Product, Integer> cart = cartService.getCart();
+        Double total = cartService.getTotal();
+
+        model.addAttribute("cartItems", cart);
+        model.addAttribute("total", total);
 
         if (user != null) {
             model.addAttribute("username", user.getUsername());
@@ -34,18 +43,26 @@ public class CartController {
     }
 
     @PostMapping("/cart/add/{productId}")
-    public String addToCart(Product product) {
+    public String addToCart(@PathVariable String productId) {
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produit introuvable"));
+        cartService.addToCart(product);
         return "redirect:/cart";
     }
 
     @PostMapping("/cart/remove/{productId}")
-    public String removeFromCart(Product product) {
+    public String removeFromCart(@PathVariable String productId) {
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produit introuvable"));
+        cartService.removeFromCart(product);
+
         return "redirect:/cart";
     }
 
     @PostMapping("/cart/validate")
     public String validateCart() {
-        return "redirect:/home";
+        cartService.validateCart();
+        return "redirect:/products";
     }
 
 }

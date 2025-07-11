@@ -25,10 +25,14 @@
 </head>
 <body>
     <h1>Liste des produits</h1>
+    <form th:action="@{/cart}">
+        <button>Voir le panier</button>
+    </form>
     <ul>
         <li th:each="product : ${products}">
             <span class="product-name" th:text="${product.name}">Produit</span>
             <span class="product-price" th:text="${product.price} + ' €'">Prix</span>
+            <span class="product-price" th:text="'Quantité disponible : ' + ${product.stock}">Quantité</span>
             <form th:action="@{/cart/add/{id} (id=${product.id})}" method="post">
                 <button>Ajouter au panier</button>
             </form>

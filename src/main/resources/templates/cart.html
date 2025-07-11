@@ -8,6 +8,38 @@
 <body>
     <h1>Panier</h1>
 
+    <table>
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Prix</th>
+                <th>Quantité</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry: ${cartItems}">
+                <td th:text="${entry.key.name}">Produit</td>
+                <td th:text="${entry.key.price} + ' €'">Prix</td>
+                <td th:text="${entry.value}">Quantité</td>
+                <td th:text="${entry.key.price * entry.value} + ' €'">Sous-total</td>
+                <td>
+                    <form th:action="@{/cart/remove/{id} (id=${entry.key.id})}" method="post">
+                        <button>Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Total panier : <span th:text="${total} + ' €'">0 €</span></h3>
+    <form th:action="@{/cart/validate}" method="post">
+        <button>Valider le panier</button>
+    </form>
+
+    <div>
+        <a th:href="@{/products}">Retour aux produits</a>
+    </div>
 
 </body>
 </html>

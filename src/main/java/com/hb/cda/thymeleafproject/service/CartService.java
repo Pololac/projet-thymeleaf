@@ -17,6 +17,7 @@ public class CartService {
     @Autowired
     private ProductRepository productRepo;
 
+    // Le panier est stocké ici en tant que Map<Produit, Quantité>
     private Map<Product, Integer> cart = new HashMap<>();
 
     public Map<Product, Integer> getCart() {
@@ -43,10 +44,6 @@ public class CartService {
         }
         productRepo.saveAll(updatedProducts);
         cart.clear(); // Vide le panier après la validation
-    }
-
-    public Double getProductTotal(Product product) {
-        return product.getPrice() * cart.getOrDefault(product, 0);
     }
 
     public Double getTotal() {
