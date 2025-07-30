@@ -1,20 +1,54 @@
-# Projet Thymeleaf
+🛒 Thymeleaf Cart Project
 
-En partant de cette base de projet, le but sera de réaliser avec Spring Boot et Thymeleaf les fonctionnalités de gestion d'un panier.
+This starter project demonstrates a simple shopping cart functionality using Spring Boot and Thymeleaf, including session management and database interaction.
 
-## Fonctionnalités attendues
+Features
 
-* Créer une petite classe de fixture permettant de remplir la base de données avec des produits et des users (pourquoi pas via un CommandLineRunner)
-* Affichage de la liste des produits paginés avec un bouton/form "Add To Cart"
-* Créer un CartService qui contiendra le panier permettant 
-    * D'ajouter un produit au panier, si le produit n'est pas déjà dedans
-    * De retirer un produit du panier
-    * De récupérer le prix total du panier
-    * De valider le panier, ce qui impliquera de le vider et de baisser le stock des produits qui sont dedans
-    * Le panier doit être lié à la session
-* Créer une page `/cart` dans laquelle on pourra visualiser les produits dans son panier, le total et le gérer. Les différentes requêtes HTTP déclencheront des méthodes du service depuis le contrôleur
+Fixtures: Easily seed database with sample users and products using CommandLineRunner.
 
-### Fonctionnalités bonus
+Product Listing: Display paginated products with 'Add to Cart' functionality.
 
-* Gérer la quantité de produit dans le panier (plusieurs manière, soit avec un objet supplémentaire qui a le produit et la quantité, soit avec une Map) et donc permettre d'ajouter plusieurs fois le même produit, voir d'ajouter plusieur produits à la fois
-* Faire que le panier persiste pour le User connecté (ça demandera de faire pas mal de truc)
+Cart Service:
+
+Add and remove products from the cart.
+
+Calculate the total price.
+
+Checkout to clear the cart and update product stock.
+
+Session-based cart persistence.
+
+Cart Management Page (/cart):
+
+View products added to the cart.
+
+Manage cart content and see the total price.
+
+Bonus Features
+
+Manage product quantities in the cart (multiple quantities per product).
+
+Persistent cart for logged-in users, maintaining cart content across sessions.
+
+Technologies Used
+
+Spring Boot
+
+Thymeleaf
+
+Spring Data JPA
+
+H2 Database (for development)
+
+Getting Started
+
+Clone the repository, run the application with Maven, and navigate to http://localhost:8080 to access the app.
+
+git clone https://github.com/Pololac/projet-thymeleaf.git
+cd projet-thymeleaf
+./mvnw spring-boot:run
+
+Contributing
+
+Feel free to contribute enhancements, bug fixes, or additional features by creating pull requests.
+
